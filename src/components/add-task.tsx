@@ -5,7 +5,7 @@ import { FormEventHandler } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { CreateTaskForm } from "./create-task-form";
 import { Filters } from "./filters";
-import Button from "./ui/button";
+import { Button } from "./ui/button";
 import {
   Dialog,
   DialogContent,
