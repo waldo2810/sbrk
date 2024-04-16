@@ -1,12 +1,20 @@
-import { useAppSelector } from "@/redux/hooks";
-import { reOrderTasks } from "@/redux/slices/task-slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { deleteTask, reOrderTasks } from "@/redux/slices/task-slice";
 import React, { useState } from "react";
 import TaskItem from "./task-item";
 
 export function TaskList() {
+  const dispatch = useAppDispatch();
   const tasks = useAppSelector((state) => state.tasks);
   const [dragId, setDragId] = useState<string>();
 
+  const handleTrash = (id: string) => {
+    dispatch(deleteTask(id));
+  };
+
+  const handleEdit = (id: string) => {
+    dispatch(deleteTask(id));
+  };
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
     setDragId(e.currentTarget.id);
   };
@@ -28,7 +36,7 @@ export function TaskList() {
       return box;
     });
 
-    reOrderTasks(newTaskState);
+    dispatch(reOrderTasks(newTaskState));
   };
 
   return (
@@ -40,6 +48,8 @@ export function TaskList() {
             task={task}
             handleDrag={handleDrag}
             handleDrop={handleDrop}
+            handleEdit={handleEdit}
+            handleTrash={handleTrash}
           />
         ))
       ) : (

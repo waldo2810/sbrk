@@ -36,9 +36,9 @@ export function AddTask() {
 
   return (
     <div className="flex items-center justify-between w-full my-2">
-      <Dialog open={open}>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button onClick={() => setOpen(true)}>
+          <Button>
             <Plus />
             Add Task
           </Button>
