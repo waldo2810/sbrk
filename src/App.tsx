@@ -1,5 +1,14 @@
 import { Pencil, Plus, Trash } from "lucide-react";
 import "./App.css";
+import Button from "./components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./components/ui/dialog";
 
 function App() {
   return (
@@ -9,14 +18,59 @@ function App() {
           Todo List
         </h1>
         <div className="flex items-center justify-between w-full my-2">
-          <button className="flex items-center gap-1 text-white bg-[#626FEF] px-3 py-2 rounded-md">
-            <Plus />
-            Add Task
-          </button>
-          <div className="space-x-2">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus />
+                Add Task
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Add Task</DialogTitle>
+                <DialogDescription>
+                  What do you want to complete?
+                </DialogDescription>
+              </DialogHeader>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const formData = new FormData(e.target as HTMLFormElement);
+                  console.log(formData.get("what"));
+                  console.log(formData.get("date"));
+                  console.log(formData.get("time"));
+                }}
+              >
+                <div className="flex flex-col gap-4">
+                  <label>What</label>
+                  <input
+                    name="what"
+                    type="text"
+                    placeholder="Do laundry"
+                    className="bg-[#CCCDDF] px-5 py-2 mr-2 rounded-md"
+                  />
+                  <label>When</label>
+                  <div className="flex gap-2 items-center justify-between">
+                    <input
+                      name="date"
+                      type="date"
+                      className="bg-[#CCCDDF] px-5 py-2 mr-2 rounded-md w-full"
+                    />
+                    <input
+                      name="time"
+                      type="time"
+                      className="bg-[#CCCDDF] px-5 py-2 mr-2 rounded-md w-full"
+                    />
+                  </div>
+                  <Button type="submit">Create</Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+          <div className="flex items-center justify-between gap-2">
             <input
               type="text"
-              className="bg-[#CCCDDF] px-5 py-2 mr-2 rounded-md"
+              className="bg-[#CCCDDF] px-5 py-2 mr-2 rounded-md max-w-48"
             />
             <select className="bg-[#CCCDDF] px-2 py-2 rounded-md">
               <option>Sort by</option>
