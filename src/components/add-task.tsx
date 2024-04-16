@@ -1,7 +1,7 @@
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { createTask } from "@/redux/slices/task-slice";
 import { Plus } from "lucide-react";
-import { FormEventHandler } from "react";
+import { FormEventHandler, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { CreateTaskForm } from "./create-task-form";
 import { Filters } from "./filters";
@@ -17,6 +17,8 @@ import {
 
 export function AddTask() {
   const dispatch = useAppDispatch();
+  const currentOrder = useAppSelector((state) => state.currentOrder);
+  const [open, setOpen] = useState(false);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -28,14 +30,15 @@ export function AddTask() {
     if (!description || !date || !time) return;
 
     const id = uuidv4();
-    dispatch(createTask({ id, what, date: new Date(date), time }));
+    dispatch(createTask({ id, description, date, time, order: currentOrder }));
+    setOpen(false);
   };
 
   return (
     <div className="flex items-center justify-between w-full my-2">
-      <Dialog>
+      <Dialog open={open}>
         <DialogTrigger asChild>
-          <Button>
+          <Button onClick={() => setOpen(true)}>
             <Plus />
             Add Task
           </Button>
