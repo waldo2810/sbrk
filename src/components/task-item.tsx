@@ -14,8 +14,8 @@ interface TaskItemProps {
   task: Task;
   handleDrop: React.DragEventHandler<HTMLDivElement>;
   handleDrag: React.DragEventHandler<HTMLDivElement>;
+  handleEdit: (updatedTask: Partial<Task>) => void;
   handleTrash: (id: string) => void;
-  handleEdit: (id: string) => void;
 }
 
 export default function TaskItem(props: TaskItemProps) {
@@ -37,7 +37,7 @@ export default function TaskItem(props: TaskItemProps) {
         <div className="flex flex-col items-start">
           <span>{props.task.description}</span>
           <span className="text-gray-500">
-            {props.task.time}, {new Date(props.task.date).toDateString()}
+            {props.task.time}, {props.task.date}
           </span>
         </div>
       </div>
@@ -46,13 +46,13 @@ export default function TaskItem(props: TaskItemProps) {
           className="bg-[#EFEFEF] rounded-md p-1"
           onClick={() => props.handleTrash(props.task.id)}
         >
-          <Trash fill="#555555" className="text-[#555555]" />
+          <Trash className="text-[#555555] cursor-default hover:text-red-500" />
         </div>
 
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <div className="bg-[#EFEFEF] rounded-md p-1">
-              <Pencil fill="#555555" className="text-[#555555]" />
+              <Pencil className="text-[#555555] cursor-default" />
             </div>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
@@ -61,7 +61,8 @@ export default function TaskItem(props: TaskItemProps) {
             </DialogHeader>
             <EditTaskForm
               task={props.task}
-              handleSubmit={() => props.handleEdit}
+              handleSubmit={props.handleEdit}
+              setOpen={setOpen}
             />
           </DialogContent>
         </Dialog>

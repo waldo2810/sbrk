@@ -19,9 +19,19 @@ const taskSlice = createSlice({
       state.tasks.push(action.payload);
       state.currentOrder++;
     },
-    deleteTask: (state, action) => {
-      state.tasks = state.tasks.filter((task) => task.id === action.payload);
-      state.currentOrder--;
+    editTask: (state, action: PayloadAction<Partial<Task>>) => {
+      const index = state.tasks.findIndex(
+        (task) => task.id === action.payload.id,
+      );
+      if (index !== -1) {
+        state.tasks[index] = { ...state.tasks[index], ...action.payload };
+      }
+    },
+    deleteTask: (state, action: PayloadAction<string>) => {
+      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+      if (state.currentOrder !== 0) {
+        state.currentOrder--;
+      }
     },
     reOrderTasks: (state, action) => {
       state.tasks = action.payload;
@@ -29,5 +39,6 @@ const taskSlice = createSlice({
   },
 });
 
-export const { createTask, deleteTask, reOrderTasks } = taskSlice.actions;
+export const { createTask, deleteTask, editTask, reOrderTasks } =
+  taskSlice.actions;
 export default taskSlice.reducer;

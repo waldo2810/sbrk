@@ -1,5 +1,6 @@
+import { Task } from "@/interface/Task";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { deleteTask, reOrderTasks } from "@/redux/slices/task-slice";
+import { deleteTask, editTask, reOrderTasks } from "@/redux/slices/task-slice";
 import React, { useState } from "react";
 import TaskItem from "./task-item";
 
@@ -11,9 +12,8 @@ export function TaskList() {
   const handleTrash = (id: string) => {
     dispatch(deleteTask(id));
   };
-
-  const handleEdit = (id: string) => {
-    dispatch(deleteTask(id));
+  const handleEdit = (updatedTask: Partial<Task>) => {
+    dispatch(editTask(updatedTask));
   };
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
     setDragId(e.currentTarget.id);
