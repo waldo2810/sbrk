@@ -21,10 +21,11 @@ export function AddTask() {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const what = formData.get("what") as string;
+    const description = formData.get("description") as string;
     const date = formData.get("date") as string;
     const time = formData.get("time") as string;
-    if (!what || !date || !time) return;
+
+    if (!description || !date || !time) return;
 
     const id = uuidv4();
     dispatch(createTask({ id, what, date: new Date(date), time }));

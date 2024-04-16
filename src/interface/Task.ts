@@ -1,6 +1,7 @@
 export interface Task {
   id: string;
-  what: string;
-  date: Date;
+  description: string;
+  date: string;
   time: string;
+  order: number;
 }

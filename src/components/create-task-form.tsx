@@ -11,7 +11,7 @@ export function CreateTaskForm({ handleSubmit }: CreateTaskFormProps) {
       <div className="flex flex-col gap-4">
         <label>What</label>
         <input
-          name="what"
+          name="description"
           type="text"
           placeholder="Do laundry"
           className="bg-[#CCCDDF] px-5 py-2 mr-2 rounded-md"
