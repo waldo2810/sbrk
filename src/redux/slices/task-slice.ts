@@ -1,14 +1,18 @@
 import { Task } from "@/interface/Task";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface InitialState {
+export interface InitialState {
   tasks: Task[];
   currentOrder: number;
+  filter: "All" | "ToDo" | "Completed";
+  sort: "Oldest" | "MostRecent" | "NameAsc" | "NameDesc";
 }
 
 const initialState: InitialState = {
   tasks: [],
   currentOrder: 0,
+  filter: "All",
+  sort: "MostRecent",
 };
 
 const taskSlice = createSlice({
@@ -37,9 +41,21 @@ const taskSlice = createSlice({
     reOrderTasks: (state, action) => {
       state.tasks = action.payload;
     },
+    setFilter: (state, action: PayloadAction<InitialState["filter"]>) => {
+      state.filter = action.payload;
+    },
+    setSort: (state, action: PayloadAction<InitialState["sort"]>) => {
+      state.sort = action.payload;
+    },
   },
 });
 
-export const { createTask, deleteTask, editTask, reOrderTasks } =
-  taskSlice.actions;
+export const {
+  createTask,
+  deleteTask,
+  editTask,
+  reOrderTasks,
+  setFilter,
+  setSort,
+} = taskSlice.actions;
 export default taskSlice.reducer;

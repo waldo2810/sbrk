@@ -7,7 +7,26 @@ import TaskItem from "./task-item";
 export function TaskList() {
   const dispatch = useAppDispatch();
   const tasks = useAppSelector((state) => state.tasks);
+  const filter = useAppSelector((state) => state.filter);
+  const sort = useAppSelector((state) => state.sort);
   const [dragId, setDragId] = useState<string>();
+
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "All") return true;
+    if (filter === "ToDo") return task.checked === false;
+    if (filter === "Completed") return task.checked;
+    return true;
+  });
+
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
+    if (sort === "Oldest")
+      return new Date(a.date).getTime() - new Date(b.date).getTime();
+    if (sort === "MostRecent")
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    if (sort === "NameAsc") return a.description.localeCompare(b.description);
+    if (sort === "NameDesc") return b.description.localeCompare(a.description);
+    return 0;
+  });
 
   const handleTrash = (id: string) => {
     dispatch(deleteTask(id));
@@ -41,8 +60,8 @@ export function TaskList() {
 
   return (
     <div className="flex flex-col w-full p-4 bg-[#EDEDF7] rounded-md space-y-4">
-      {tasks.length ? (
-        tasks.map((task) => (
+      {sortedTasks.length ? (
+        sortedTasks.map((task) => (
           <TaskItem
             key={task.id}
             task={task}

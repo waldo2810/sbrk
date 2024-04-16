@@ -41,6 +41,7 @@ export default function TaskItem(props: TaskItemProps) {
           type="checkbox"
           className="w-6 h-6 checked:font-thin bg-[#CCCDDF]"
           onChange={handleCheck}
+          checked={props.task.checked}
         />
         <div className="flex flex-col items-start">
           <span
