@@ -4,4 +4,5 @@ export interface Task {
   date: string;
   time: string;
   order: number;
+  checked: boolean;
 }

@@ -16,6 +16,7 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     createTask: (state, action: PayloadAction<Task>) => {
+      action.payload.checked = false;
       state.tasks.push(action.payload);
       state.currentOrder++;
     },

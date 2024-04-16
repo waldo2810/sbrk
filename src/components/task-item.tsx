@@ -1,4 +1,6 @@
 import { Task } from "@/interface/Task";
+import { cn } from "@/lib/utils";
+import { useAppDispatch } from "@/redux/hooks";
 import { Pencil, Trash } from "lucide-react";
 import { useState } from "react";
 import { EditTaskForm } from "./edit-task-form";
@@ -9,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { editTask } from "@/redux/slices/task-slice";
 
 interface TaskItemProps {
   task: Task;
@@ -19,7 +22,11 @@ interface TaskItemProps {
 }
 
 export default function TaskItem(props: TaskItemProps) {
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
+  const handleCheck: React.ChangeEventHandler<HTMLInputElement> = () => {
+    dispatch(editTask({ id: props.task.id, checked: !props.task.checked }));
+  };
 
   return (
     <div
@@ -33,10 +40,20 @@ export default function TaskItem(props: TaskItemProps) {
         <input
           type="checkbox"
           className="w-6 h-6 checked:font-thin bg-[#CCCDDF]"
+          onChange={handleCheck}
         />
         <div className="flex flex-col items-start">
-          <span>{props.task.description}</span>
-          <span className="text-gray-500">
+          <span
+            className={props.task.checked ? "line-through text-gray-300" : ""}
+          >
+            {props.task.description}
+          </span>
+          <span
+            className={cn(
+              "text-gray-500",
+              props.task.checked ? "line-through text-gray-300" : "",
+            )}
+          >
             {props.task.time}, {props.task.date}
           </span>
         </div>
