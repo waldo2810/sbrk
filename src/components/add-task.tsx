@@ -30,7 +30,16 @@ export function AddTask() {
     if (!description || !date || !time) return;
 
     const id = uuidv4();
-    dispatch(createTask({ id, description, date, time, order: currentOrder }));
+    dispatch(
+      createTask({
+        id,
+        description,
+        date,
+        time,
+        order: currentOrder,
+        checked: false,
+      }),
+    );
     setOpen(false);
   };
 

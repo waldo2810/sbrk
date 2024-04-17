@@ -20,12 +20,18 @@ export function TaskList() {
   });
 
   const sortedTasks = [...filteredTasks].sort((a, b) => {
-    if (sort === "Oldest")
+    if (sort === "Oldest") {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
-    if (sort === "MostRecent")
+    }
+    if (sort === "MostRecent") {
       return new Date(b.date).getTime() - new Date(a.date).getTime();
-    if (sort === "NameAsc") return a.description.localeCompare(b.description);
-    if (sort === "NameDesc") return b.description.localeCompare(a.description);
+    }
+    if (sort === "NameAsc") {
+      return a.description.localeCompare(b.description);
+    }
+    if (sort === "NameDesc") {
+      return b.description.localeCompare(a.description);
+    }
     return 0;
   });
 
