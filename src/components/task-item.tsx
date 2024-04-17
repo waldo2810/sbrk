@@ -32,8 +32,9 @@ export default function TaskItem(props: TaskItemProps) {
     <div
       draggable
       id={props.task.id}
-      onDrop={props.handleDrop}
+      onDragOver={(e) => e.preventDefault()}
       onDragStart={props.handleDrag}
+      onDrop={props.handleDrop}
       className="flex items-center justify-between bg-white p-4 rounded-md cursor-grab"
     >
       <div className="flex gap-2 items-center">

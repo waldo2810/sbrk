@@ -6,6 +6,7 @@ export interface InitialState {
   currentOrder: number;
   filter: "All" | "ToDo" | "Completed";
   sort: "Oldest" | "MostRecent" | "NameAsc" | "NameDesc";
+  showDnD: boolean;
 }
 
 const initialState: InitialState = {
@@ -13,6 +14,7 @@ const initialState: InitialState = {
   currentOrder: 0,
   filter: "All",
   sort: "MostRecent",
+  showDnD: false,
 };
 
 const taskSlice = createSlice({
@@ -38,7 +40,7 @@ const taskSlice = createSlice({
         state.currentOrder--;
       }
     },
-    reOrderTasks: (state, action) => {
+    reOrderTasks: (state, action: PayloadAction<Task[]>) => {
       state.tasks = action.payload;
     },
     setFilter: (state, action: PayloadAction<InitialState["filter"]>) => {
@@ -46,6 +48,9 @@ const taskSlice = createSlice({
     },
     setSort: (state, action: PayloadAction<InitialState["sort"]>) => {
       state.sort = action.payload;
+    },
+    setDnD: (state, action: PayloadAction<boolean>) => {
+      state.showDnD = action.payload;
     },
   },
 });
@@ -57,5 +62,6 @@ export const {
   reOrderTasks,
   setFilter,
   setSort,
+  setDnD,
 } = taskSlice.actions;
 export default taskSlice.reducer;

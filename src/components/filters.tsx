@@ -1,5 +1,10 @@
 import { useAppDispatch } from "@/redux/hooks";
-import { InitialState, setFilter, setSort } from "@/redux/slices/task-slice";
+import {
+  InitialState,
+  setDnD,
+  setFilter,
+  setSort,
+} from "@/redux/slices/task-slice";
 
 export function Filters() {
   const dispatch = useAppDispatch();
@@ -7,6 +12,7 @@ export function Filters() {
     dispatch(setFilter(e.target.value as InitialState["filter"]));
   };
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch(setDnD(false));
     dispatch(setSort(e.target.value as InitialState["sort"]));
   };
 

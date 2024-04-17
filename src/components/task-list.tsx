@@ -1,6 +1,13 @@
+import { getFilteredTasks } from "@/helpers/get-filtered-tasks";
+import { getSortedTasks } from "@/helpers/get-sorted-tasks";
 import { Task } from "@/interface/Task";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { deleteTask, editTask, reOrderTasks } from "@/redux/slices/task-slice";
+import {
+  deleteTask,
+  editTask,
+  reOrderTasks,
+  setDnD,
+} from "@/redux/slices/task-slice";
 import React, { useState } from "react";
 import TaskItem from "./task-item";
 
@@ -9,31 +16,11 @@ export function TaskList() {
   const tasks = useAppSelector((state) => state.tasks);
   const filter = useAppSelector((state) => state.filter);
   const sort = useAppSelector((state) => state.sort);
+  const showDnD = useAppSelector((state) => state.showDnD);
   const [dragId, setDragId] = useState<string>();
   const [searchQuery, setSearchQuery] = useState<string>();
-
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === "All") return true;
-    if (filter === "ToDo") return task.checked === false;
-    if (filter === "Completed") return task.checked;
-    return true;
-  });
-
-  const sortedTasks = [...filteredTasks].sort((a, b) => {
-    if (sort === "Oldest") {
-      return new Date(a.date).getTime() - new Date(b.date).getTime();
-    }
-    if (sort === "MostRecent") {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    }
-    if (sort === "NameAsc") {
-      return a.description.localeCompare(b.description);
-    }
-    if (sort === "NameDesc") {
-      return b.description.localeCompare(a.description);
-    }
-    return 0;
-  });
+  const filteredTasks = getFilteredTasks(tasks, filter);
+  const sortedTasks = getSortedTasks(filteredTasks, sort);
 
   const searchedTasks = sortedTasks.filter((task) =>
     searchQuery
@@ -47,27 +34,31 @@ export function TaskList() {
   const handleEdit = (updatedTask: Partial<Task>) => {
     dispatch(editTask(updatedTask));
   };
+
   const handleDrag = (e: React.DragEvent<HTMLDivElement>) => {
     setDragId(e.currentTarget.id);
   };
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    const dragTask = tasks.find((box) => box.id === dragId);
-    const dropTask = tasks.find((box) => box.id === e.currentTarget.id);
-    if (!dragTask || !dropTask) return;
+    const draggedTask = searchedTasks.find((task) => task.id === dragId);
+    const droppedTask = searchedTasks.find(
+      (task) => task.id === e.currentTarget.id,
+    );
+    if (!draggedTask || !droppedTask) return;
 
-    const dragBoxOrder = dragTask.order;
-    const dropBoxOrder = dropTask.order;
+    const draggedTaskOrder = draggedTask.order;
+    const droppedTaskOrder = droppedTask.order;
 
-    const newTaskState = tasks.map((box) => {
-      if (box.id === dragId) {
-        box.order = dropBoxOrder;
+    const newTaskState = searchedTasks.map((task) => {
+      if (task.id === dragId) {
+        return { ...task, order: droppedTaskOrder };
       }
-      if (box.id === e.currentTarget.id) {
-        box.order = dragBoxOrder;
+      if (task.id === e.currentTarget.id) {
+        return { ...task, order: draggedTaskOrder };
       }
-      return box;
+      return task;
     });
 
+    dispatch(setDnD(true));
     dispatch(reOrderTasks(newTaskState));
   };
 
@@ -82,16 +73,31 @@ export function TaskList() {
       />
       <div className="flex flex-col w-full p-4 bg-[#EDEDF7] rounded-md space-y-4">
         {searchedTasks.length ? (
-          searchedTasks.map((task) => (
-            <TaskItem
-              key={task.id}
-              task={task}
-              handleDrag={handleDrag}
-              handleDrop={handleDrop}
-              handleEdit={handleEdit}
-              handleTrash={handleTrash}
-            />
-          ))
+          showDnD ? (
+            searchedTasks
+              .sort((a, b) => a.order - b.order)
+              .map((task) => (
+                <TaskItem
+                  key={task.id}
+                  task={task}
+                  handleDrag={handleDrag}
+                  handleDrop={handleDrop}
+                  handleEdit={handleEdit}
+                  handleTrash={handleTrash}
+                />
+              ))
+          ) : (
+            searchedTasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                handleDrag={handleDrag}
+                handleDrop={handleDrop}
+                handleEdit={handleEdit}
+                handleTrash={handleTrash}
+              />
+            ))
+          )
         ) : (
           <>
             <p className="text-sm text-gray-500">No tasks yet</p>
