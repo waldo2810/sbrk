@@ -10,6 +10,7 @@ export function TaskList() {
   const filter = useAppSelector((state) => state.filter);
   const sort = useAppSelector((state) => state.sort);
   const [dragId, setDragId] = useState<string>();
+  const [searchQuery, setSearchQuery] = useState<string>();
 
   const filteredTasks = tasks.filter((task) => {
     if (filter === "All") return true;
@@ -27,6 +28,12 @@ export function TaskList() {
     if (sort === "NameDesc") return b.description.localeCompare(a.description);
     return 0;
   });
+
+  const searchedTasks = sortedTasks.filter((task) =>
+    searchQuery
+      ? task.description.toLowerCase().includes(searchQuery.toLowerCase())
+      : sortedTasks,
+  );
 
   const handleTrash = (id: string) => {
     dispatch(deleteTask(id));
@@ -59,24 +66,33 @@ export function TaskList() {
   };
 
   return (
-    <div className="flex flex-col w-full p-4 bg-[#EDEDF7] rounded-md space-y-4">
-      {sortedTasks.length ? (
-        sortedTasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            handleDrag={handleDrag}
-            handleDrop={handleDrop}
-            handleEdit={handleEdit}
-            handleTrash={handleTrash}
-          />
-        ))
-      ) : (
-        <>
-          <p className="text-sm text-gray-500">No tasks yet</p>
-          <p className="text-sm text-gray-500">Press "Add Task" to begin</p>
-        </>
-      )}
-    </div>
+    <>
+      <input
+        type="text"
+        className="bg-[#CCCDDF] px-2 py-2 mr-2 rounded-md w-full mb-2"
+        placeholder="Search tasks..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      <div className="flex flex-col w-full p-4 bg-[#EDEDF7] rounded-md space-y-4">
+        {searchedTasks.length ? (
+          searchedTasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              handleDrag={handleDrag}
+              handleDrop={handleDrop}
+              handleEdit={handleEdit}
+              handleTrash={handleTrash}
+            />
+          ))
+        ) : (
+          <>
+            <p className="text-sm text-gray-500">No tasks yet</p>
+            <p className="text-sm text-gray-500">Press "Add Task" to begin</p>
+          </>
+        )}
+      </div>
+    </>
   );
 }

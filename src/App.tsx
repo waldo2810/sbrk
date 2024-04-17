@@ -10,11 +10,6 @@ function App() {
           Todo List
         </h1>
         <AddTask />
-        <input
-          type="text"
-          className="bg-[#CCCDDF] px-2 py-2 mr-2 rounded-md w-full mb-2"
-          placeholder="Search tasks..."
-        />
         <TaskList />
       </div>
     </div>
