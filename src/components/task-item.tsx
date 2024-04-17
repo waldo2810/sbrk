@@ -40,7 +40,7 @@ export default function TaskItem(props: TaskItemProps) {
       <div className="flex gap-2 items-center">
         <input
           type="checkbox"
-          className="w-6 h-6 checked:font-thin bg-[#CCCDDF]"
+          className="w-6 h-6 checked:font-thin bg-[#EDEDF7]"
           onChange={handleCheck}
           checked={props.task.checked}
         />
@@ -53,7 +53,7 @@ export default function TaskItem(props: TaskItemProps) {
           <span
             className={cn(
               "text-gray-500",
-              props.task.checked ? "line-through text-gray-300" : "",
+              props.task.checked ? "line-through text-gray-300" : ""
             )}
           >
             {props.task.time}, {props.task.date}

@@ -25,7 +25,7 @@ export function TaskList() {
   const searchedTasks = sortedTasks.filter((task) =>
     searchQuery
       ? task.description.toLowerCase().includes(searchQuery.toLowerCase())
-      : sortedTasks,
+      : sortedTasks
   );
 
   const handleTrash = (id: string) => {
@@ -41,7 +41,7 @@ export function TaskList() {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     const draggedTask = searchedTasks.find((task) => task.id === dragId);
     const droppedTask = searchedTasks.find(
-      (task) => task.id === e.currentTarget.id,
+      (task) => task.id === e.currentTarget.id
     );
     if (!draggedTask || !droppedTask) return;
 
@@ -66,7 +66,7 @@ export function TaskList() {
     <>
       <input
         type="text"
-        className="bg-[#CCCDDF] px-2 py-2 mr-2 rounded-md w-full mb-2"
+        className="bg-[#EDEDF7] px-2 py-2 mr-2 rounded-md w-full mb-2"
         placeholder="Search tasks..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}

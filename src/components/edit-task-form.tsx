@@ -30,24 +30,27 @@ export function EditTaskForm({
       <div className="flex flex-col gap-4">
         <label>What</label>
         <input
+          required
           name="description"
           type="text"
           placeholder="Do laundry"
-          className="bg-[#CCCDDF] px-5 py-2 mr-2 rounded-md"
+          className="bg-[#EDEDF7] px-5 py-2 mr-2 rounded-md"
           defaultValue={task.description}
         />
         <label>When</label>
         <div className="flex gap-2 items-center justify-between">
           <input
+            required
             name="date"
             type="date"
-            className="bg-[#CCCDDF] px-5 py-2 mr-2 rounded-md w-full"
+            className="bg-[#EDEDF7] px-5 py-2 mr-2 rounded-md w-full"
             defaultValue={task.date}
           />
           <input
+            required
             name="time"
             type="time"
-            className="bg-[#CCCDDF] px-5 py-2 mr-2 rounded-md w-full"
+            className="bg-[#EDEDF7] px-5 py-2 mr-2 rounded-md w-full"
             defaultValue={task.time}
           />
         </div>

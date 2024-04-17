@@ -38,16 +38,16 @@ export function AddTask() {
         time,
         order: currentOrder,
         checked: false,
-      }),
+      })
     );
     setOpen(false);
   };
 
   return (
-    <div className="flex items-center justify-between w-full my-2">
+    <div className="flex flex-col gap-2 md:gap-0 md:flex-row items-center justify-between w-full my-2">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button>
+          <Button className="w-full md:w-32">
             <Plus />
             Add Task
           </Button>

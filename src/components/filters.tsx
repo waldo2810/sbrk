@@ -19,7 +19,7 @@ export function Filters() {
   return (
     <div className="flex items-center justify-between gap-2">
       <select
-        className="bg-[#CCCDDF] px-2 py-2 rounded-md"
+        className="bg-[#EDEDF7] text-gray-600 px-2 py-2 rounded-md"
         onChange={handleSortChange}
       >
         <option>Sort by</option>
@@ -29,7 +29,7 @@ export function Filters() {
         <option value="NameDesc">Name (Z-A)</option>
       </select>
       <select
-        className="bg-[#CCCDDF] px-2 py-2 rounded-md"
+        className="bg-[#EDEDF7] text-gray-600 px-2 py-2 rounded-md"
         onChange={handleFilterChange}
       >
         <option>Show</option>
