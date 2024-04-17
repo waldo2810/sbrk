@@ -71,7 +71,7 @@ export function TaskList() {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      <div className="flex flex-col w-full p-4 bg-[#EDEDF7] rounded-md space-y-4">
+      <div className="flex flex-col w-full p-4 bg-[#EDEDF7] rounded-md space-y-4 max-h-96 overflow-auto">
         {searchedTasks.length ? (
           showDnD ? (
             searchedTasks

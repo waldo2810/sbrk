@@ -35,9 +35,9 @@ export default function TaskItem(props: TaskItemProps) {
       onDragOver={(e) => e.preventDefault()}
       onDragStart={props.handleDrag}
       onDrop={props.handleDrop}
-      className="flex items-center justify-between bg-white p-4 rounded-md cursor-grab"
+      className="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-md cursor-grab"
     >
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center w-full">
         <input
           type="checkbox"
           className="w-6 h-6 checked:font-thin bg-[#EDEDF7]"
@@ -60,7 +60,7 @@ export default function TaskItem(props: TaskItemProps) {
           </span>
         </div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-end w-full">
         <div
           className="bg-[#EFEFEF] rounded-md p-1"
           onClick={() => props.handleTrash(props.task.id)}
