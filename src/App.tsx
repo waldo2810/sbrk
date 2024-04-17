@@ -4,8 +4,8 @@ import { TaskList } from "./components/task-list";
 
 function App() {
   return (
-    <div className="h-screen w-full flex items-center">
-      <div className="w-[80%] h-[80%] mx-auto">
+    <div className="h-screen w-full flex items-center justify-center">
+      <div className="w-full md:w-[60%] h-[80%] mx-auto">
         <h1 className="uppercase font-black text-[#656582] text-3xl pb-10">
           Todo List
         </h1>
